@@ -1,0 +1,194 @@
+<html>
+
+<head>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Orbitron:700);
+        * {
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: Black;
+            color: lime;
+            font-family: 'Orbitron', sans-serif;
+            animation: all .7s;
+        }
+
+        .contenedor {
+            margin: 10%;
+            padding: 10px;
+            background: rgba(100, 100, 100, 0.3);
+        }
+
+        .t {
+            font-size: 2em;
+        }
+
+        .timeis {
+            width: 100%;
+            padding: 10px;
+            font-size: 3em;
+        }
+
+        .desperta {
+            position: relative;
+            top: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 5px;
+            background: grey;
+            border: solid 1px grey;
+            font-weight: bold;
+        }
+
+        .obs {
+            position: relative;
+            top: 150px;
+            color: white;
+        }
+
+
+        /* Changing sizes.... */
+
+        @media (max-width:500px) {
+            * {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width:360px) {
+            * {
+                font-size: 8px;
+            }
+        }
+
+        @media (max-width:200px) {
+            * {
+                font-size: 5px;
+            }
+        }
+
+        @media (max-width:120px) {
+            .contenedor {
+                display: none;
+            }
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #divOnTop {
+            background-color: #fff;
+            width: 300px;
+            position: absolute;
+            z-index: 10;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+        }
+        
+        #divOnTop2 { 
+            opacity: 0.7;
+            filter: alpha(opacity=30);
+            background-color: #000000;
+            width: 90%;
+            position: absolute;
+            z-index: 8;
+            top: 0px;
+            height: 100vh;
+        }
+
+        .imgAlarm {
+            height: 300px;
+        }
+    </style>
+
+    <script>
+        var audio = new Audio('audio_file.mp3');
+        function reloj() {
+            var hoy = new Date();
+            var hora = hoy.getHours();
+            var minuto = hoy.getMinutes();
+            var segundo = hoy.getSeconds();
+            var option = 2;
+            var horaD = parseInt(document.getElementById("hora").value);
+            var minutoD = parseInt(document.getElementById("minuto").value);
+            var mensagem = document.getElementById("mensagem").value;
+
+            if (minuto < 10) {
+                minuto = "0" + minuto
+            };
+            if (segundo < 10) {
+                segundo = "0" + segundo
+            };
+            if (hora == horaD && minuto == minutoD && segundo == 00) {
+                if(option == 1) {
+                    window.open("https://www.youtube.com/watch?v=MC64gKvh5R8&t=1s&autoplay=1");
+                } else {
+                    audio.play();
+                    document.getElementById("alarm").style.display = "block";
+                    document.getElementById("alarm").style.visibility = "visible";
+                }
+                
+            };
+
+            var tm = document.getElementById("tm");
+            tm.textContent = (hora + ":" + minuto + ":" + segundo);
+            
+            var message = document.getElementById("message");
+            message.textContent = (mensagem);
+        };
+
+        function turnoff() {
+            audio.pause();
+            audio.currentTime = 0;
+            document.getElementById("alarm").style.visibility = "hidden";
+        };
+
+        function snooze() {
+            turnoff();
+            snoozeMin = parseInt(document.getElementById("snooze").value);
+            minutoD += snoozeMin;
+            document.getElementById("minuto").value = minutoD;
+        }
+
+        setInterval(reloj, 1000);
+    </script>
+</head>
+
+<body>
+    <div class="hide" id="alarm">
+        <div id="divOnTop">
+            <img class="imgAlarm" src="https://data.whicdn.com/images/308322157/original.gif">
+            <div id="message"></div>
+            <button onclick="turnoff()">Desligar</button>
+            <button onclick="snooze()">Soneca</button>
+        </div>
+        <div id="divOnTop2"></div>
+    </div>
+    <div class="contenedor">
+        <div class="t">Hora:</div>
+        <div class="timeis" id="tm"></div>
+    </div>
+    <div class="desperta">
+        DESPERTADOR:
+        <br/>
+        <br/> hora:
+        <input type="text" id="hora"> minuto:
+        <input type="text" id="minuto">
+        <br/><br/><br/> mensagem:
+        <textarea maxlength="256" id="mensagem"></textarea>
+        Soneca: <input type="text" id="snooze"> minutos
+        <br/>
+        <button>OK!</button>
+    </div>
+
+    <a href="https://www.google.com.br/?#q=como+desactivar+bloqueo+ventana+emergente+navegadores" target: "_blank" class="obs">(*) - Hay que desactivar bloqueo de ventanas emergentes (pop-ups)</a>
+</body>
+
+</html>
